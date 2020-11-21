@@ -1,2 +1,2 @@
-# BoinCoin-Blockchain
- A "BoinCoin" cryptocurrency, builded on simple blockchain backend written in Python
+# BoinCoin - Simple Blockchain Example
+A cryptocurrency example, build on simple blockchain written in Python
