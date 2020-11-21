@@ -26,20 +26,25 @@ from urllib.parse import urlparse
 class Blockchain:
     
     def __init__(self):
+        # chain list containing blocks
         self.chain = []
+        # transactions list used to adding waiting transactions in a block
+        self.transactions = []
+        # create genesis block
         self.create_block(proof = 1, previous_hash = '0' )
 
-    def create_block(self, proof, previous_hash):
-        
+    def create_block(self, proof, previous_hash):        
         block = { 
             'index': len(self.chain) + 1, 
             'timestamp': str(datetime.datetime.now()),
             'proof': proof,
-            'previous_hash': previous_hash
-        }
-        
-        self.chain.append(block)
-        
+            'previous_hash': previous_hash,
+            'transactions' : self.transactions
+        }        
+        # clear transactions list
+        self.transactions = []
+        # add block to our chain
+        self.chain.append(block)        
         return block
     
     def get_previous_block(self):
@@ -92,6 +97,15 @@ class Blockchain:
         # blockchain is valid
         return True                   
     
+    def add_transaction(self, sender, receiver, amount):
+        # add new transaction object
+        self.transactions.append({ 'sender': sender,
+                                   'receiver': receiver
+                                   'amount' : amount })
+        # return a index of block (next block of chain) that
+        # would receive this transaction
+        previous_block = self.get_previous_block()
+        return previous_block['index'] + 1
         
 
 # ---------------------- Mining Blockchain --------------------------------------------------
@@ -122,7 +136,6 @@ def mine_block():
                  'previous_hash' : block['previous_hash']                
     }
     
-    #return response
     return jsonify(response), 200
 
 # getting the full blockchain
@@ -133,8 +146,7 @@ def get_chain():
     response = { 'chain' : blockchain.chain, 
                  'length' : len(blockchain.chain)
     }  
-    
-    #return response
+
     return jsonify(response), 200
 
 # Checking if the Blockchain is valid
