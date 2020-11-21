@@ -159,7 +159,7 @@ def mine_block():
     proof = blockchain.proof_of_work(previous_proof)
     previous_hash = blockchain.hash(previous_block)
     # add transaction
-    blockchain.add_transaction(sender = node_address, receiver = 'Olich', amount = 1)
+    blockchain.add_transaction(sender = node_address, receiver = 'Octavia', amount = 1)
     # create new block    
     block = blockchain.create_block(proof, previous_hash)
     
@@ -247,5 +247,5 @@ def replace_chain():
     return jsonify(response), 200
     
 # RUNNING THE APP
-app.run(host = '0.0.0.0', port = 5000)    
+app.run(host = '0.0.0.0', port = 5002)    
 
